@@ -1,0 +1,19 @@
+{
+  "name": "truephrase",
+  "version": "1.0.0",
+  "description": "TruePhrase - AI Text Generator Website",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'No build step required for static site'",
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "ai",
+    "text-generator",
+    "gpt",
+    "supabase"
+  ],
+  "author": "",
+  "license": "MIT"
+}
+
