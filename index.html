@@ -102,6 +102,12 @@
             position: relative;
             z-index: 1001;
             overflow: auto;
+            transition: min-height 0.5s ease;
+        }
+        
+        /* Extended height when content is shown */
+        .centered-homepage.extended {
+            min-height: 160vh;
         }
         
         /* Initial content wrapper - centers first 3 sections */
@@ -135,7 +141,7 @@
             pointer-events: none;
             z-index: 0;
             opacity: 0;
-            animation: fadeInGradient 2s ease-out 1.5s forwards;
+            animation: fadeInGradient 0.5s ease-out 0s forwards;
         }
         
         @keyframes fadeInGradient {
@@ -432,7 +438,7 @@
             pointer-events: none;
             z-index: 1;
             opacity: 0;
-            animation: fadeInGradient 2s ease-out 1.5s forwards;
+            animation: fadeInGradient 0.5s ease-out 0s forwards;
         }
         
         /* About page styling */
@@ -525,6 +531,26 @@
         .waitlist-submit-btn:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 15px rgba(147, 197, 253, 0.4);
+        }
+        
+        .waitlist-cancel-btn {
+            background: transparent;
+            color: #93C5FD;
+            border: 1px solid #93C5FD;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        .waitlist-cancel-btn:hover {
+            background: rgba(147, 197, 253, 0.1);
+            border-color: #DBEAFE;
+            color: #DBEAFE;
         }
         
         .waitlist-helper {
@@ -892,7 +918,7 @@
         /* Generator Page Styling */
         .generator-page {
             height: 100vh;
-            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 25%, #f8fafc 50%, #e2e8f0 75%, #cbd5e1 100%);
+            background: #000000;
             padding: 0;
             position: absolute;
             top: 0;
@@ -907,16 +933,24 @@
         
         .generator-page::before {
             content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            position: fixed;
             bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(148, 163, 184, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(148, 163, 184, 0.1) 0%, transparent 50%);
+            right: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(
+                ellipse 80vw 60vh at bottom right,
+                rgba(147, 197, 253, 0.25) 0%,
+                rgba(147, 197, 253, 0.18) 20%,
+                rgba(191, 219, 254, 0.12) 40%,
+                rgba(191, 219, 254, 0.08) 60%,
+                rgba(219, 234, 254, 0.04) 80%,
+                transparent 100%
+            );
             pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            animation: fadeInGradient 0.5s ease-out 0s forwards;
         }
         
         .message-container {
@@ -940,14 +974,14 @@
         .generator-title {
             font-size: 2rem;
             font-weight: 700;
-            color: #1e293b;
+            color: #ffffff;
             margin-bottom: 8px;
             letter-spacing: -0.01em;
         }
         
         .generator-subtitle {
             font-size: 1rem;
-            color: #64748b;
+            color: rgba(255, 255, 255, 0.8);
             font-weight: 400;
             margin: 0;
         }
@@ -1022,14 +1056,14 @@
         }
         
         .chat-input-container {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border-radius: 24px;
             padding: 16px 20px;
             box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.1),
-                0 4px 16px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(148, 163, 184, 0.2);
+                0 8px 32px rgba(255, 255, 255, 0.1),
+                0 4px 16px rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: flex-end;
             gap: 12px;
@@ -1049,15 +1083,16 @@
             min-height: 24px;
             outline: none;
             font-family: inherit;
+            color: #ffffff;
         }
         
         .chat-input::placeholder {
-            color: #94a3b8;
+            color: rgba(255, 255, 255, 0.6);
         }
         
         .chat-send-button {
-            background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
-            color: white;
+            background: linear-gradient(135deg, #93C5FD 0%, #DBEAFE 100%);
+            color: #000000;
             border: none;
             border-radius: 12px;
             padding: 12px 16px;
@@ -1072,7 +1107,7 @@
         
         .chat-send-button:hover:not(:disabled) {
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(148, 163, 184, 0.3);
+            box-shadow: 0 4px 12px rgba(147, 197, 253, 0.3);
         }
         
         .chat-send-button:disabled {
@@ -1299,7 +1334,7 @@
             background: #ffffff;
             border-radius: 25px 25px 25px 5px;
             padding: 20px;
-            margin: 10px 0;
+            margin: 0;
             box-shadow: 
                 0 8px 32px rgba(0, 0, 0, 0.1),
                 0 4px 16px rgba(0, 0, 0, 0.05),
@@ -1313,10 +1348,12 @@
         }
         
         .speech-bubble.user {
-            margin-left: 0;
-            margin-right: auto;
-            background: #f0f0f0;
-            border-radius: 25px 25px 5px 25px;
+            margin-left: auto;
+            margin-right: 0;
+            background: #f5f5f5;
+            border-radius: 20px 20px 4px 20px;
+            max-width: 70%;
+            padding: 16px 20px;
         }
         
         .speech-bubble::before {
@@ -1333,12 +1370,7 @@
         }
         
         .speech-bubble.user::before {
-            bottom: -8px;
-            left: 25px;
-            right: auto;
-            border-left: 12px solid #f0f0f0;
-            border-right: 12px solid transparent;
-            border-top: 12px solid #f0f0f0;
+            display: none;
         }
         
         .speech-bubble::after {
@@ -1354,12 +1386,44 @@
         }
         
         .speech-bubble.user::after {
-            bottom: -10px;
-            left: 23px;
-            right: auto;
-            border-left: 14px solid rgba(0, 0, 0, 0.05);
-            border-right: 14px solid transparent;
-            border-top: 14px solid rgba(0, 0, 0, 0.05);
+            display: none;
+        }
+        
+        /* Compact user bubble styling */
+        .speech-bubble.user .speech-bubble-header {
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+        }
+        
+        .speech-bubble.user .speech-bubble-content {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* AI Response Container - White area on left */
+        .ai-response-container {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            margin: 0;
+            margin-right: auto;
+            margin-left: 0;
+            max-width: 75%;
+            box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.08),
+                0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            animation: fadeInUp 0.4s ease-out;
+            position: relative;
+        }
+        
+        .ai-response-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #1e293b;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 0;
         }
         
         .streaming-text {
@@ -1370,9 +1434,10 @@
             display: inline-block;
             width: 2px;
             height: 1.2em;
-            background-color: #333;
+            background-color: #1e293b;
             animation: blink 1s infinite;
             margin-left: 2px;
+            vertical-align: baseline;
         }
         
         @keyframes blink {
@@ -1611,6 +1676,7 @@
                 /'truːfreɪz/ NOUN<br>
                 AUTHENTIC AI-GENERATED TEXT THAT SOUNDS TRULY HUMAN
             </div>
+            <p style="font-size: 14px; color: #93C5FD; margin-top: 20px; opacity: 0.8;">Powered by ChatGPT</p>
         </div>
         
         <!-- Join Waitlist Button -->
@@ -1626,6 +1692,7 @@
                     <button type="submit" class="waitlist-submit-btn">Sign Up</button>
                 </form>
                 <p id="waitlistHelper" class="waitlist-helper">We respect your privacy. No spam, ever.</p>
+                <button onclick="toggleWaitlistForm()" class="waitlist-cancel-btn">Cancel</button>
             </div>
         </div>
         
@@ -1659,7 +1726,7 @@
             <!-- Header Section -->
             <div class="generator-header">
                 <h1 class="generator-title">AI Text Generator</h1>
-                <p class="generator-subtitle">Create high-quality AI content powered by Google Gemini</p>
+                <p class="generator-subtitle">Create high-quality AI content powered by ChatGPT</p>
             </div>
             
             <!-- Main Content Area -->
@@ -1685,7 +1752,7 @@
                         onclick="generateText()"
                         class="chat-send-button"
                     >
-                        <span id="generateBtnText">Send</span>
+                        <span id="generateBtnText">→</span>
                         <div id="generateSpinner" class="modern-spinner hidden"></div>
                     </button>
                 </div>
@@ -1826,10 +1893,10 @@
             
             if (form.classList.contains('hidden')) {
                 form.classList.remove('hidden');
-                button.textContent = 'Cancel';
+                button.classList.add('hidden');
             } else {
                 form.classList.add('hidden');
-                button.textContent = 'Join the Waitlist';
+                button.classList.remove('hidden');
                 // Clear form and messages
                 document.getElementById('waitlistEmail').value = '';
                 document.getElementById('waitlistHelper').textContent = 'We respect your privacy. No spam, ever.';
@@ -1840,34 +1907,45 @@
         // Toggle development info section
         function toggleDevelopmentInfo() {
             const status = document.getElementById('developmentStatus');
-            if (!status) return;
+            const homepage = document.getElementById('view-home');
+            if (!status || !homepage) return;
             
             if (status.classList.contains('hidden')) {
                 status.classList.remove('hidden');
-                // Scroll to the section with smooth behavior - centered on screen
+                // Extend the homepage height
+                homepage.classList.add('extended');
+                // Scroll to the bottom of the page with smooth behavior after extension completes
                 setTimeout(() => {
-                    const elementPosition = status.getBoundingClientRect().top + window.pageYOffset;
-                    const offsetPosition = elementPosition - (window.innerHeight / 2);
-                    window.scrollTo({ top: offsetPosition, behavior: 'auto' });
-                }, 50);
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                }, 300.1);
             } else {
                 status.classList.add('hidden');
+                // Shrink the homepage back to normal
+                homepage.classList.remove('extended');
             }
         }
 
-        // Add speech bubble to chat
+        // Add speech bubble to chat - user on right, AI on left
         function addSpeechBubble(content, isUser = false) {
             const chatMessages = document.getElementById('chatMessages');
             const bubble = document.createElement('div');
             bubble.className = `speech-bubble ${isUser ? 'user' : ''}`;
             
-            bubble.innerHTML = `
-                <div class="speech-bubble-header">
-                    <span class="speech-bubble-icon"></span>
-                    <span class="speech-bubble-title">${isUser ? 'You' : 'TruePhrase AI'}</span>
-                </div>
-                <div class="speech-bubble-content">${content}</div>
-            `;
+            if (isUser) {
+                // User bubbles: no header, just content
+                bubble.innerHTML = `
+                    <div class="speech-bubble-content">${content}</div>
+                `;
+            } else {
+                // AI bubbles: with header
+                bubble.innerHTML = `
+                    <div class="speech-bubble-header">
+                        <span class="speech-bubble-icon"></span>
+                        <span class="speech-bubble-title">TruePhrase AI</span>
+                    </div>
+                    <div class="speech-bubble-content">${content}</div>
+                `;
+            }
             
             chatMessages.appendChild(bubble);
             
@@ -1879,26 +1957,30 @@
             return bubble;
         }
         
-        // Add streaming speech bubble for AI responses
+        // Add streaming AI response container (left side, white background)
         function addStreamingBubble() {
             const chatMessages = document.getElementById('chatMessages');
-            const bubble = document.createElement('div');
-            bubble.className = 'speech-bubble';
+            const containerDiv = document.createElement('div');
+            containerDiv.className = 'ai-response-container';
             
-            bubble.innerHTML = `
-                <div class="speech-bubble-header">
-                    <span class="speech-bubble-icon"></span>
-                    <span class="speech-bubble-title">TruePhrase AI</span>
-                </div>
-                <div class="speech-bubble-content">
-                    <span class="streaming-text"></span><span class="typing-cursor"></span>
-                </div>
-            `;
+            const textDiv = document.createElement('div');
+            textDiv.className = 'ai-response-text';
             
-            chatMessages.appendChild(bubble);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            const streamingSpan = document.createElement('span');
+            streamingSpan.className = 'streaming-text';
+            const cursor = document.createElement('span');
+            cursor.className = 'typing-cursor';
             
-            return bubble.querySelector('.streaming-text');
+            textDiv.appendChild(streamingSpan);
+            textDiv.appendChild(cursor);
+            containerDiv.appendChild(textDiv);
+            chatMessages.appendChild(containerDiv);
+            
+            if (autoScrollEnabled) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            return streamingSpan;
         }
         
         // Update streaming text
@@ -2052,8 +2134,9 @@
             
             // Clear previous messages
             document.getElementById('messageContainer').innerHTML = '';
+            document.getElementById('chatMessages').innerHTML = '';
             
-            // Add user message to chat
+            // Add user message to chat (bubble on right)
             addSpeechBubble(prompt, true);
             
             // Clear the prompt input
@@ -2077,7 +2160,7 @@
                     }
                 };
 
-                // Create streaming bubble
+                // Create streaming text display
                 const streamingElement = addStreamingBubble();
                 
                 // Use regular API call for now and simulate streaming
@@ -2098,7 +2181,10 @@
             } catch (error) {
                 console.error('Error:', error);
                 showMessage(`Failed to generate text: ${error.message}`, 'error');
-                addSpeechBubble('Sorry, I encountered an error while generating your text. Please try again.', false);
+                const errorText = document.createElement('div');
+                errorText.style.cssText = 'text-align: center; padding: 20px; color: #ef4444; font-size: 1rem; line-height: 1.6;';
+                errorText.textContent = 'Sorry, I encountered an error while generating your text. Please try again.';
+                document.getElementById('chatMessages').appendChild(errorText);
             } finally {
                 setGenerateLoadingState(false);
             }
@@ -2192,6 +2278,14 @@
 
         // Add some keyboard shortcuts
         document.addEventListener('keydown', function(e) {
+            // Prevent Space and Enter from triggering button clicks
+            if (e.key === ' ' || e.key === 'Enter') {
+                if (document.activeElement.tagName === 'BUTTON') {
+                    e.preventDefault();
+                    return;
+                }
+            }
+            
             // Secret key combination check
             secretKeySequence.push(e.code);
             if (secretKeySequence.length > secretKey.length) {
