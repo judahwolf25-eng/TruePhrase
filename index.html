@@ -40,12 +40,14 @@
             top: 0;
             left: 0;
             right: 0;
-            background: transparent;
+            background: #000000;
             padding: 15px 40px;
             display: flex;
             justify-content: center;
             gap: 40px;
             z-index: 99999;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
         
         .top-nav button {
@@ -925,10 +927,402 @@
             left: 0;
             right: 0;
             bottom: 0;
-            overflow: auto;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            z-index: 1000;
+        }
+        
+        /* Chat Sidebar Styling */
+        .chat-sidebar {
+            width: 250px;
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
+            height: 100vh;
+            position: relative;
+            z-index: 100002;
+            overflow: hidden;
+            pointer-events: auto;
+        }
+        
+        .sidebar-header {
+            padding: 70px 20px 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 100003;
+            pointer-events: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .new-chat-button {
+            width: 100%;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #93C5FD 0%, #DBEAFE 100%);
+            color: #000000;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            z-index: 100004;
+            pointer-events: auto;
+        }
+        
+        .new-chat-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(147, 197, 253, 0.3);
+        }
+        
+        .new-chat-button:active {
+            transform: translateY(0);
+        }
+        
+        .writing-samples-button {
+            width: 100%;
+            padding: 12px 16px;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            z-index: 100004;
+            pointer-events: auto;
+        }
+        
+        .writing-samples-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.95);
+            transform: translateY(-1px);
+        }
+        
+        .writing-samples-button:active {
+            transform: translateY(0);
+        }
+        
+        .sidebar-chat-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .sidebar-chat-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .sidebar-chat-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+        
+        .sidebar-chat-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+        
+        .sidebar-chat-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .chat-item {
+            padding: 12px;
+            margin-bottom: 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+        
+        .chat-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.95);
+        }
+        
+        .chat-item.active {
+            background: rgba(147, 197, 253, 0.15);
+            color: #93C5FD;
+            border-left: 3px solid #93C5FD;
+        }
+        
+        .chat-item-title {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-right: 8px;
+        }
+        
+        .chat-item-actions {
+            display: none;
+            gap: 4px;
+        }
+        
+        .chat-item:hover .chat-item-actions {
+            display: flex;
+        }
+        
+        .chat-item-action-btn {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        .chat-item-action-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .chat-item-date {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 4px;
+        }
+        
+        .sidebar-loading {
+            padding: 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+        
+        .generator-content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Writing Samples Page Styling */
+        .writing-samples-page {
+            height: 100vh;
+            background: #000000;
+            padding: 80px 40px 40px 40px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow-y: auto;
             z-index: 1000;
+        }
+        
+        .writing-samples-page::before {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(
+                ellipse 80vw 60vh at bottom right,
+                rgba(147, 197, 253, 0.25) 0%,
+                rgba(147, 197, 253, 0.18) 20%,
+                rgba(191, 219, 254, 0.12) 40%,
+                rgba(191, 219, 254, 0.08) 60%,
+                rgba(219, 234, 254, 0.04) 80%,
+                transparent 100%
+            );
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+            animation: fadeInGradient 0.5s ease-out 0s forwards;
+        }
+        
+        .writing-samples-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .writing-samples-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .writing-samples-subtitle {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .writing-samples-form {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+        
+        .form-textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .form-textarea:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #93C5FD;
+            box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.1);
+        }
+        
+        .form-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .form-button {
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #93C5FD 0%, #DBEAFE 100%);
+            color: #000000;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .form-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(147, 197, 253, 0.4);
+        }
+        
+        .form-button:active {
+            transform: translateY(0);
+        }
+        
+        .samples-list {
+            margin-top: 40px;
+        }
+        
+        .sample-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 16px;
+        }
+        
+        .sample-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .sample-item-date {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .sample-item-delete {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .sample-item-delete:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+        
+        .sample-item-content {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        /* Responsive adjustments for mobile */
+        @media (max-width: 768px) {
+            .generator-page {
+                flex-direction: column;
+            }
+            
+            .chat-sidebar {
+                width: 100%;
+                height: auto;
+                max-height: 40vh;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
         }
         
         .generator-page::before {
@@ -992,7 +1386,8 @@
             flex-direction: column;
             position: relative;
             z-index: 10;
-            overflow: auto;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
         
         .generator-content {
@@ -1108,6 +1503,25 @@
         .chat-send-button:hover:not(:disabled) {
             transform: translateY(-1px);
             box-shadow: 0 4px 12px rgba(147, 197, 253, 0.3);
+        }
+        
+        /* Clear Chat Button */
+        .clear-chat-button {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .clear-chat-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            border-color: rgba(255, 255, 255, 0.3);
         }
         
         .chat-send-button:disabled {
@@ -1720,41 +2134,82 @@
 
         <!-- Generator View -->
         <div id="view-generator" class="hidden generator-page">
-            <!-- Message Container -->
-            <div id="messageContainer" class="message-container"></div>
-            
-            <!-- Header Section -->
-            <div class="generator-header">
-                <h1 class="generator-title">AI Text Generator</h1>
-                <p class="generator-subtitle">Create high-quality AI content powered by ChatGPT</p>
+            <!-- Chat Sidebar -->
+            <div class="chat-sidebar">
+                <div class="sidebar-header">
+                    <button id="newChatBtn" onclick="createNewChat(event)" class="new-chat-button">
+                        <span>+</span>
+                        <span>New Chat</span>
+                    </button>
+                    <button id="writingSamplesBtn" onclick="showView('writing-samples')" class="writing-samples-button">
+                        <span>📝</span>
+                        <span>Writing Samples</span>
+                    </button>
+                </div>
+                <div class="sidebar-chat-list" id="sidebarChatList">
+                    <div class="sidebar-loading" id="sidebarLoading">Loading chats...</div>
+                </div>
             </div>
             
-            <!-- Main Content Area -->
-            <div class="generator-main">
-                <!-- Chat Messages Area -->
-                <div class="chat-messages" id="chatMessages">
-                    <!-- Messages will appear here -->
+            <!-- Generator Content Wrapper -->
+            <div class="generator-content-wrapper">
+                <!-- Message Container -->
+                <div id="messageContainer" class="message-container"></div>
+                
+                <!-- Main Content Area -->
+                <div class="generator-main">
+                    <!-- Chat Messages Area -->
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Messages will appear here -->
+                    </div>
+                    
                 </div>
                 
+                <!-- Bottom Input Area (ChatGPT Style) -->
+                <div class="generator-bottom">
+                    <div class="chat-input-container">
+                        <textarea 
+                            id="prompt" 
+                            class="chat-input"
+                            placeholder="Enter a prompt to generate AI text (e.g., 'Write a blog post about artificial intelligence')..."
+                            rows="1"
+                        ></textarea>
+                        <button 
+                            id="generateBtn" 
+                            onclick="generateText()"
+                            class="chat-send-button"
+                        >
+                            <span id="generateBtnText">→</span>
+                            <div id="generateSpinner" class="modern-spinner hidden"></div>
+                        </button>
+                    </div>
+                </div>
             </div>
-            
-            <!-- Bottom Input Area (ChatGPT Style) -->
-            <div class="generator-bottom">
-                <div class="chat-input-container">
-                    <textarea 
-                        id="prompt" 
-                        class="chat-input"
-                        placeholder="Enter a prompt to generate AI text (e.g., 'Write a blog post about artificial intelligence')..."
-                        rows="1"
-                    ></textarea>
-                    <button 
-                        id="generateBtn" 
-                        onclick="generateText()"
-                        class="chat-send-button"
-                    >
-                        <span id="generateBtnText">→</span>
-                        <div id="generateSpinner" class="modern-spinner hidden"></div>
-                    </button>
+        </div>
+
+        <!-- Writing Samples View -->
+        <div id="view-writing-samples" class="hidden writing-samples-page">
+            <div class="writing-samples-container">
+                <h1 class="writing-samples-title">Writing Samples</h1>
+                <p class="writing-samples-subtitle">Add your writing samples to help TruePhrase learn your personal style</p>
+                
+                <div class="writing-samples-form">
+                    <form onsubmit="return addWritingSample(event)">
+                        <div class="form-group">
+                            <label class="form-label" for="sampleText">Paste your writing sample here:</label>
+                            <textarea 
+                                id="sampleText" 
+                                class="form-textarea"
+                                placeholder="Paste a piece of your writing (essay, email, article, etc.) to help the AI understand your writing style..."
+                                required
+                            ></textarea>
+                        </div>
+                        <button type="submit" class="form-button">Add Sample</button>
+                    </form>
+                </div>
+                
+                <div class="samples-list" id="samplesList">
+                    <!-- Samples will be displayed here -->
                 </div>
             </div>
         </div>
@@ -1813,6 +2268,13 @@
         const maxRetries = 3;
         const baseDelay = 1000;
         
+        // Conversation history array - stores all prompts and responses
+        // Format: [{ role: 'user', text: '...' }, { role: 'model', text: '...' }]
+        let conversationHistory = [];
+        
+        // Current chat ID - tracks the active chat in Supabase
+        let currentChatId = null;
+        
         // Auto-scroll state management
         let autoScrollEnabled = true;
         
@@ -1854,6 +2316,7 @@
             const home = document.getElementById('view-home');
             const gen = document.getElementById('view-generator');
             const about = document.getElementById('view-about');
+            const writingSamples = document.getElementById('view-writing-samples');
             const navHome = document.getElementById('navHome');
             const navGenerate = document.getElementById('navGenerate');
             const navAbout = document.getElementById('navAbout');
@@ -1862,6 +2325,7 @@
             home.classList.add('hidden');
             gen.classList.add('hidden');
             about.classList.add('hidden');
+            if (writingSamples) writingSamples.classList.add('hidden');
             
             // Remove active class from all nav buttons
             navHome.classList.remove('active');
@@ -1877,6 +2341,33 @@
             } else if (view === 'generator') {
                 gen.classList.remove('hidden');
                 navGenerate.classList.add('active');
+                // Set up Enter key handler for prompt textarea when generator view is shown
+                setupPromptEnterHandler();
+                // Load chats from Supabase when generator view is shown
+                loadChatsFromSupabase();
+                // Ensure New Chat button is clickable
+                setTimeout(() => {
+                    const newChatBtn = document.getElementById('newChatBtn');
+                    if (newChatBtn) {
+                        // Add event listener as backup (onclick in HTML should work, but this ensures it)
+                        newChatBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('New Chat button clicked (via event listener)');
+                            createNewChat(e);
+                        }, { capture: true, passive: false });
+                        console.log('New Chat button setup complete');
+                    } else {
+                        console.error('New Chat button not found!');
+                    }
+                }, 100);
+            } else if (view === 'writing-samples') {
+                const writingSamples = document.getElementById('view-writing-samples');
+                if (writingSamples) {
+                    writingSamples.classList.remove('hidden');
+                }
+                // Load and display existing samples
+                loadWritingSamples();
             } else if (view === 'about') {
                 about.classList.remove('hidden');
                 navAbout.classList.add('active');
@@ -2111,6 +2602,562 @@
                 spinner.classList.add('hidden');
             }
         }
+        
+        /**
+         * Converts conversationHistory array to Gemini API format
+         * @returns {Array} Array of content objects in Gemini API format
+         */
+        function formatConversationForAPI() {
+            return conversationHistory.map(msg => ({
+                role: msg.role === 'user' ? 'user' : 'model',
+                parts: [{ text: msg.text }]
+            }));
+        }
+        
+        /**
+         * Clears the conversation history and UI
+         */
+        function clearChat() {
+            if (conversationHistory.length === 0) {
+                // No conversation to clear
+                return;
+            }
+            
+            conversationHistory = [];
+            currentChatId = null;
+            document.getElementById('chatMessages').innerHTML = '';
+            updateSidebarActiveState();
+            console.log('Conversation cleared');
+            showMessage('Chat cleared', 'success');
+        }
+        
+        /**
+         * Chat Management Functions with Supabase
+         * 
+         * REQUIRED SUPABASE TABLE STRUCTURE:
+         * Create a table named 'chats' with the following columns:
+         * - id: uuid, primary key, default: gen_random_uuid()
+         * - title: text, not null
+         * - messages: jsonb, not null
+         * - created_at: timestamp with time zone, default: now()
+         * - updated_at: timestamp with time zone, default: now()
+         * 
+         * SQL to create the table:
+         * CREATE TABLE chats (
+         *   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+         *   title TEXT NOT NULL,
+         *   messages JSONB NOT NULL,
+         *   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+         *   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+         * );
+         * 
+         * Enable Row Level Security (RLS) if needed for your use case.
+         */
+        
+        /**
+         * Generates a title from the first user message
+         * @param {Array} messages - Array of conversation messages
+         * @returns {string} Generated title
+         */
+        function generateChatTitle(messages) {
+            if (!messages || messages.length === 0) {
+                return 'New Chat';
+            }
+            
+            // Find first user message
+            const firstUserMessage = messages.find(msg => msg.role === 'user');
+            if (!firstUserMessage) {
+                return 'New Chat';
+            }
+            
+            // Take first 50 characters and clean up
+            let title = firstUserMessage.text.trim();
+            if (title.length > 50) {
+                title = title.substring(0, 50) + '...';
+            }
+            return title || 'New Chat';
+        }
+        
+        /**
+         * Saves or updates a chat in Supabase
+         * @param {string} chatId - Chat ID (null for new chat)
+         * @param {Array} messages - Array of messages to save
+         * @param {string} title - Optional title (will be generated if not provided)
+         */
+        async function saveChatToSupabase(chatId = null, messages = null, title = null) {
+            if (!supabaseClient) {
+                console.error('Supabase client not initialized');
+                return null;
+            }
+            
+            // Use current conversation if messages not provided
+            const messagesToSave = messages || conversationHistory;
+            
+            // Generate title if not provided
+            const chatTitle = title || generateChatTitle(messagesToSave);
+            
+            try {
+                if (chatId) {
+                    // Update existing chat
+                    const { data, error } = await supabaseClient
+                        .from('chats')
+                        .update({
+                            title: chatTitle,
+                            messages: messagesToSave,
+                            updated_at: new Date().toISOString()
+                        })
+                        .eq('id', chatId)
+                        .select()
+                        .single();
+                    
+                    if (error) throw error;
+                    console.log('Chat updated:', data.id);
+                    return data.id;
+                } else {
+                    // Create new chat
+                    const { data, error } = await supabaseClient
+                        .from('chats')
+                        .insert([{
+                            title: chatTitle,
+                            messages: messagesToSave,
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString()
+                        }])
+                        .select()
+                        .single();
+                    
+                    if (error) throw error;
+                    console.log('Chat created:', data.id);
+                    return data.id;
+                }
+            } catch (error) {
+                console.error('Error saving chat to Supabase:', error);
+                showMessage('Failed to save chat. Please try again.', 'error');
+                return null;
+            }
+        }
+        
+        /**
+         * Loads all chats from Supabase and populates the sidebar
+         */
+        async function loadChatsFromSupabase() {
+            if (!supabaseClient) {
+                console.error('Supabase client not initialized');
+                document.getElementById('sidebarLoading').textContent = 'Error: Supabase not connected';
+                return;
+            }
+            
+            try {
+                const { data, error } = await supabaseClient
+                    .from('chats')
+                    .select('id, title, messages, created_at, updated_at')
+                    .order('updated_at', { ascending: false });
+                
+                if (error) throw error;
+                
+                // Hide loading message
+                document.getElementById('sidebarLoading').style.display = 'none';
+                
+                // Render chats in sidebar
+                renderChatSidebar(data || []);
+            } catch (error) {
+                console.error('Error loading chats:', error);
+                document.getElementById('sidebarLoading').textContent = 'Error loading chats';
+            }
+        }
+        
+        /**
+         * Renders the chat list in the sidebar
+         * @param {Array} chats - Array of chat objects from Supabase
+         */
+        function renderChatSidebar(chats) {
+            const sidebarList = document.getElementById('sidebarChatList');
+            
+            // Clear existing content (except loading indicator which we hide)
+            const loadingEl = document.getElementById('sidebarLoading');
+            if (loadingEl) loadingEl.style.display = 'none';
+            
+            // Clear all chat items
+            const existingChats = sidebarList.querySelectorAll('.chat-item');
+            existingChats.forEach(item => item.remove());
+            
+            if (chats.length === 0) {
+                sidebarList.innerHTML = '<div class="sidebar-loading">No chats yet. Start a new conversation!</div>';
+                return;
+            }
+            
+            // Render each chat
+            chats.forEach(chat => {
+                const chatItem = document.createElement('div');
+                chatItem.className = 'chat-item';
+                chatItem.dataset.chatId = chat.id;
+                
+                // Format date
+                const date = new Date(chat.updated_at || chat.created_at);
+                const dateStr = date.toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric',
+                    year: date.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined
+                });
+                
+                chatItem.innerHTML = `
+                    <div style="flex: 1; min-width: 0;">
+                        <div class="chat-item-title">${escapeHtml(chat.title || 'Untitled Chat')}</div>
+                        <div class="chat-item-date">${dateStr}</div>
+                    </div>
+                    <div class="chat-item-actions">
+                        <button class="chat-item-action-btn" onclick="event.stopPropagation(); renameChat('${chat.id}', '${escapeHtml(chat.title)}')" title="Rename">
+                            ✏️
+                        </button>
+                        <button class="chat-item-action-btn" onclick="event.stopPropagation(); deleteChat('${chat.id}')" title="Delete">
+                            🗑️
+                        </button>
+                    </div>
+                `;
+                
+                // Click handler to load chat
+                chatItem.addEventListener('click', () => {
+                    loadChatFromSupabase(chat.id);
+                });
+                
+                sidebarList.appendChild(chatItem);
+            });
+            
+            // Update active state
+            updateSidebarActiveState();
+        }
+        
+        /**
+         * Updates the active state of chat items in sidebar
+         */
+        function updateSidebarActiveState() {
+            const chatItems = document.querySelectorAll('.chat-item');
+            chatItems.forEach(item => {
+                if (item.dataset.chatId === currentChatId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+        
+        /**
+         * Loads a specific chat from Supabase
+         * @param {string} chatId - Chat ID to load
+         */
+        async function loadChatFromSupabase(chatId) {
+            if (!supabaseClient) {
+                console.error('Supabase client not initialized');
+                return;
+            }
+            
+            try {
+                const { data, error } = await supabaseClient
+                    .from('chats')
+                    .select('*')
+                    .eq('id', chatId)
+                    .single();
+                
+                if (error) throw error;
+                
+                // Set current chat ID
+                currentChatId = chatId;
+                
+                // Load messages into conversation history
+                conversationHistory = data.messages || [];
+                
+                // Clear and render messages in UI
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.innerHTML = '';
+                
+                // Render all messages
+                conversationHistory.forEach((msg, index) => {
+                    if (msg.role === 'user') {
+                        addSpeechBubble(msg.text, true);
+                    } else if (msg.role === 'model') {
+                        // Create AI response container
+                        const containerDiv = document.createElement('div');
+                        containerDiv.className = 'ai-response-container';
+                        const textDiv = document.createElement('div');
+                        textDiv.className = 'ai-response-text';
+                        textDiv.textContent = msg.text;
+                        containerDiv.appendChild(textDiv);
+                        chatMessages.appendChild(containerDiv);
+                    }
+                });
+                
+                // Scroll to bottom
+                if (autoScrollEnabled) {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+                
+                // Update sidebar active state
+                updateSidebarActiveState();
+                
+                console.log('Chat loaded:', chatId);
+            } catch (error) {
+                console.error('Error loading chat:', error);
+                showMessage('Failed to load chat. Please try again.', 'error');
+            }
+        }
+        
+        /**
+         * Creates a new chat (clears current and starts fresh)
+         */
+        async function createNewChat(event) {
+            // Prevent any event propagation
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            try {
+                console.log('createNewChat called. Current chat ID:', currentChatId, 'History length:', conversationHistory.length);
+                
+                // Save current chat if it has messages
+                if (conversationHistory.length > 0) {
+                    try {
+                        if (currentChatId) {
+                            // Update existing chat
+                            await saveChatToSupabase(currentChatId);
+                        } else {
+                            // Create new chat from current conversation
+                            const savedChatId = await saveChatToSupabase(null);
+                            if (savedChatId) {
+                                currentChatId = savedChatId;
+                            }
+                        }
+                        // Reload sidebar to show the saved chat
+                        await loadChatsFromSupabase();
+                    } catch (saveError) {
+                        console.error('Error saving chat before creating new one:', saveError);
+                        // Continue anyway to clear the chat
+                    }
+                }
+                
+                // Clear current chat
+                currentChatId = null;
+                conversationHistory = [];
+                document.getElementById('chatMessages').innerHTML = '';
+                document.getElementById('prompt').value = '';
+                updateSidebarActiveState();
+                
+                // Focus on input
+                const promptInput = document.getElementById('prompt');
+                if (promptInput) {
+                    promptInput.focus();
+                }
+                
+                console.log('New chat created successfully');
+            } catch (error) {
+                console.error('Error in createNewChat:', error);
+                showMessage('Failed to create new chat. Please try again.', 'error');
+            }
+        }
+        
+        /**
+         * Deletes a chat from Supabase
+         * @param {string} chatId - Chat ID to delete
+         */
+        async function deleteChat(chatId) {
+            if (!confirm('Are you sure you want to delete this chat?')) {
+                return;
+            }
+            
+            if (!supabaseClient) {
+                console.error('Supabase client not initialized');
+                return;
+            }
+            
+            try {
+                const { error } = await supabaseClient
+                    .from('chats')
+                    .delete()
+                    .eq('id', chatId);
+                
+                if (error) throw error;
+                
+                // If deleted chat was the current one, clear it
+                if (currentChatId === chatId) {
+                    currentChatId = null;
+                    conversationHistory = [];
+                    document.getElementById('chatMessages').innerHTML = '';
+                }
+                
+                // Reload sidebar
+                await loadChatsFromSupabase();
+                showMessage('Chat deleted', 'success');
+            } catch (error) {
+                console.error('Error deleting chat:', error);
+                showMessage('Failed to delete chat. Please try again.', 'error');
+            }
+        }
+        
+        /**
+         * Renames a chat
+         * @param {string} chatId - Chat ID to rename
+         * @param {string} currentTitle - Current title
+         */
+        async function renameChat(chatId, currentTitle) {
+            const newTitle = prompt('Enter new chat title:', currentTitle);
+            if (!newTitle || newTitle.trim() === '') {
+                return;
+            }
+            
+            if (!supabaseClient) {
+                console.error('Supabase client not initialized');
+                return;
+            }
+            
+            try {
+                const { error } = await supabaseClient
+                    .from('chats')
+                    .update({
+                        title: newTitle.trim(),
+                        updated_at: new Date().toISOString()
+                    })
+                    .eq('id', chatId);
+                
+                if (error) throw error;
+                
+                // Reload sidebar
+                await loadChatsFromSupabase();
+                showMessage('Chat renamed', 'success');
+            } catch (error) {
+                console.error('Error renaming chat:', error);
+                showMessage('Failed to rename chat. Please try again.', 'error');
+            }
+        }
+        
+        /**
+         * Utility function to escape HTML
+         */
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        /**
+         * Writing Samples Management Functions
+         */
+        
+        /**
+         * Adds a new writing sample
+         */
+        function addWritingSample(event) {
+            event.preventDefault();
+            const sampleText = document.getElementById('sampleText').value.trim();
+            
+            if (!sampleText) {
+                alert('Please enter a writing sample.');
+                return false;
+            }
+            
+            // Get existing samples from localStorage
+            let samples = JSON.parse(localStorage.getItem('writingSamples') || '[]');
+            
+            // Add new sample
+            const newSample = {
+                id: Date.now().toString(),
+                text: sampleText,
+                date: new Date().toISOString()
+            };
+            
+            samples.unshift(newSample); // Add to beginning
+            
+            // Save to localStorage
+            localStorage.setItem('writingSamples', JSON.stringify(samples));
+            
+            // Clear form
+            document.getElementById('sampleText').value = '';
+            
+            // Reload samples display
+            loadWritingSamples();
+            
+            return false;
+        }
+        
+        /**
+         * Loads and displays all writing samples
+         */
+        function loadWritingSamples() {
+            const samplesList = document.getElementById('samplesList');
+            if (!samplesList) return;
+            
+            // Get samples from localStorage
+            const samples = JSON.parse(localStorage.getItem('writingSamples') || '[]');
+            
+            // Clear existing display
+            samplesList.innerHTML = '';
+            
+            if (samples.length === 0) {
+                samplesList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📝</div>
+                        <p>No writing samples yet. Add your first sample above!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Display each sample
+            samples.forEach(sample => {
+                const sampleItem = document.createElement('div');
+                sampleItem.className = 'sample-item';
+                
+                const date = new Date(sample.date);
+                const dateStr = date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                // Extract first sentence or first 100 characters
+                let preview = sample.text.trim();
+                // Try to get first sentence (ends with ., !, or ?)
+                const firstSentenceMatch = preview.match(/^[^.!?]+[.!?]/);
+                if (firstSentenceMatch) {
+                    preview = firstSentenceMatch[0].trim();
+                } else if (preview.length > 100) {
+                    // If no sentence ending found, truncate at 100 chars
+                    preview = preview.substring(0, 100).trim() + '...';
+                }
+                
+                sampleItem.innerHTML = `
+                    <div class="sample-item-header">
+                        <span class="sample-item-date">${dateStr}</span>
+                        <button class="sample-item-delete" onclick="deleteWritingSample('${sample.id}')">Delete</button>
+                    </div>
+                    <div class="sample-item-content">${escapeHtml(preview)}</div>
+                `;
+                
+                samplesList.appendChild(sampleItem);
+            });
+        }
+        
+        /**
+         * Deletes a writing sample
+         */
+        function deleteWritingSample(sampleId) {
+            if (!confirm('Are you sure you want to delete this writing sample?')) {
+                return;
+            }
+            
+            // Get existing samples
+            let samples = JSON.parse(localStorage.getItem('writingSamples') || '[]');
+            
+            // Remove the sample
+            samples = samples.filter(sample => sample.id !== sampleId);
+            
+            // Save back to localStorage
+            localStorage.setItem('writingSamples', JSON.stringify(samples));
+            
+            // Reload display
+            loadWritingSamples();
+        }
 
         async function generateText() {
             console.log('generateText function called');
@@ -2132,27 +3179,30 @@
             console.log('Starting generation...');
             setGenerateLoadingState(true);
             
-            // Clear previous messages
+            // Clear error messages only, not the chat
             document.getElementById('messageContainer').innerHTML = '';
-            document.getElementById('chatMessages').innerHTML = '';
             
-            // Add user message to chat (bubble on right)
+            // Add user prompt to conversation history
+            conversationHistory.push({
+                role: 'user',
+                text: prompt
+            });
+            
+            // Add user message to chat UI (bubble on right) - append, don't clear
             addSpeechBubble(prompt, true);
             
             // Clear the prompt input
             document.getElementById('prompt').value = '';
             
             try {
-                console.log('Generating text');
-                // Generate text normally without style training
+                console.log('Generating text with conversation history:', conversationHistory.length, 'messages');
+                
+                // System instruction for the AI
                 const generateSystemInstruction = "You are a professional content writer who creates high-quality, engaging text based on user prompts. Write clear, well-structured content that is informative and engaging.";
                 
+                // Build payload with full conversation history
                 const generatePayload = {
-                    contents: [{
-                        parts: [{
-                            text: prompt
-                        }]
-                    }],
+                    contents: formatConversationForAPI(),
                     systemInstruction: {
                         parts: [{
                             text: generateSystemInstruction
@@ -2160,11 +3210,17 @@
                     }
                 };
 
-                // Create streaming text display
+                // Create streaming text display - append new response
                 const streamingElement = addStreamingBubble();
                 
-                // Use regular API call for now and simulate streaming
+                // Call API with full conversation context
                 const finalText = await makeApiCallWithRetry(generatePayload);
+                
+                // Add AI response to conversation history
+                conversationHistory.push({
+                    role: 'model',
+                    text: finalText.trim()
+                });
                 
                 // Simulate streaming by adding text character by character
                 let currentText = '';
@@ -2174,13 +3230,31 @@
                     await new Promise(resolve => setTimeout(resolve, 20)); // 20ms delay between characters
                 }
                 
-                console.log('Generation complete');
+                console.log('Generation complete. Conversation history now has', conversationHistory.length, 'messages');
                 finishStreaming();
+                
+                // Save chat to Supabase (create new if no currentChatId, update if exists)
+                const savedChatId = await saveChatToSupabase(currentChatId);
+                if (savedChatId) {
+                    if (!currentChatId) {
+                        // New chat was created, set as current
+                        currentChatId = savedChatId;
+                    }
+                    // Reload sidebar to update timestamps and order
+                    await loadChatsFromSupabase();
+                    updateSidebarActiveState();
+                }
+                
                 showMessage('Text generated successfully!', 'success');
                 
             } catch (error) {
                 console.error('Error:', error);
                 showMessage(`Failed to generate text: ${error.message}`, 'error');
+                
+                // Remove the user message from history if API call failed
+                conversationHistory.pop();
+                
+                // Show error in chat
                 const errorText = document.createElement('div');
                 errorText.style.cssText = 'text-align: center; padding: 20px; color: #ef4444; font-size: 1rem; line-height: 1.6;';
                 errorText.textContent = 'Sorry, I encountered an error while generating your text. Please try again.';
@@ -2276,6 +3350,36 @@
             alert('🔓 Generator unlocked! You now have access to TruePhrase.');
         }
 
+        /**
+         * Sets up the Enter key handler for the prompt textarea
+         * Enter alone sends the message, Shift+Enter creates a new line
+         */
+        function setupPromptEnterHandler() {
+            const promptTextarea = document.getElementById('prompt');
+            if (promptTextarea && !promptTextarea.dataset.enterHandlerSetup) {
+                // Mark as setup to avoid adding multiple listeners
+                promptTextarea.dataset.enterHandlerSetup = 'true';
+                
+                promptTextarea.addEventListener('keydown', function(e) {
+                    // If Enter is pressed without Shift, send the message
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault(); // Prevent new line
+                        // Only send if textarea is not empty and button is not disabled
+                        const generateBtn = document.getElementById('generateBtn');
+                        if (this.value.trim() && !generateBtn.disabled) {
+                            generateText();
+                        }
+                    }
+                    // Shift+Enter will create a new line (default behavior)
+                });
+            }
+        }
+        
+        // Set up Enter key handler when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            setupPromptEnterHandler();
+        });
+        
         // Add some keyboard shortcuts
         document.addEventListener('keydown', function(e) {
             // Prevent Space and Enter from triggering button clicks
