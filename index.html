@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TruePhrase - AI Text Generator</title>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@9.1.2/marked.min.js"></script>
     <script>
         // Initialize Supabase client immediately
         const supabaseUrl = 'https://hewhknielaqwizaybexa.supabase.co'
@@ -1835,9 +1836,151 @@
             font-size: 1rem;
             line-height: 1.7;
             color: #1e293b;
-            white-space: pre-wrap;
             word-wrap: break-word;
             margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+        
+        /* Markdown styling in AI responses */
+        .ai-response-text h1,
+        .ai-response-text h2,
+        .ai-response-text h3,
+        .ai-response-text h4,
+        .ai-response-text h5,
+        .ai-response-text h6 {
+            color: #1e293b;
+            font-weight: 700;
+            margin: 20px 0 12px 0;
+            line-height: 1.4;
+            font-family: inherit;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .ai-response-text h1 {
+            font-size: 1.75rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+        
+        .ai-response-text h2 {
+            font-size: 1.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+        
+        .ai-response-text h3 {
+            font-size: 1.25rem;
+        }
+        
+        .ai-response-text h4 {
+            font-size: 1.1rem;
+        }
+        
+        .ai-response-text ul,
+        .ai-response-text ol {
+            margin: 12px 0;
+            padding-left: 28px;
+            line-height: 1.8;
+        }
+        
+        .ai-response-text li {
+            margin: 6px 0;
+        }
+        
+        .ai-response-text strong {
+            font-weight: 700;
+            color: #0f172a;
+        }
+        
+        .ai-response-text em {
+            font-style: italic;
+        }
+        
+        .ai-response-text hr {
+            border: none;
+            border-top: 2px solid #e2e8f0;
+            margin: 24px 0;
+        }
+        
+        .ai-response-text p {
+            margin: 12px 0;
+            line-height: 1.7;
+            font-family: inherit;
+        }
+        
+        .ai-response-text p:first-child {
+            margin-top: 0;
+        }
+        
+        .ai-response-text p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .ai-response-text blockquote {
+            border-left: 4px solid #93C5FD;
+            padding-left: 16px;
+            margin: 16px 0;
+            color: #475569;
+            font-style: italic;
+            background: rgba(147, 197, 253, 0.05);
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            font-family: inherit;
+        }
+        
+        .ai-response-text ul,
+        .ai-response-text ol,
+        .ai-response-text li {
+            font-family: inherit;
+        }
+        
+        .ai-response-text code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Menlo", "Monaco", "Consolas", "Courier New", monospace;
+            font-size: 0.9em;
+            color: #dc2626;
+            font-variant-ligatures: none;
+            letter-spacing: 0;
+        }
+        
+        .ai-response-text pre {
+            background: #f8fafc;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1px solid #e2e8f0;
+            font-family: "Menlo", "Monaco", "Consolas", "Courier New", monospace;
+            font-size: 0.875em;
+            line-height: 1.6;
+        }
+        
+        .ai-response-text pre code {
+            background: none;
+            padding: 0;
+            color: #1e293b;
+            font-size: inherit;
+        }
+        
+        /* Math/equation styling - LaTeX-style */
+        .ai-response-text .math,
+        .ai-response-text .katex,
+        .ai-response-text .math-display {
+            font-family: "STIX Two Math", "Computer Modern", "Latin Modern Math", "KaTeX_Main", "Times New Roman", serif;
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+        
+        /* Inline math */
+        .ai-response-text .math-inline {
+            font-family: "STIX Two Math", "Computer Modern", "Latin Modern Math", "KaTeX_Main", "Times New Roman", serif;
+            font-size: 1em;
         }
         
         .streaming-text {
@@ -1969,7 +2112,7 @@
         .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 80px 20px 20px 20px;
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -2476,7 +2619,13 @@
         
         // Update streaming text
         function updateStreamingText(element, text) {
-            element.textContent = text;
+            // Parse markdown to HTML
+            if (typeof marked !== 'undefined') {
+                element.innerHTML = marked.parse(text);
+            } else {
+                // Fallback to plain text if markdown library not loaded
+                element.textContent = text;
+            }
             
             // Only auto-scroll if enabled and user is at the absolute bottom
             if (autoScrollEnabled) {
@@ -2880,7 +3029,12 @@
                         containerDiv.className = 'ai-response-container';
                         const textDiv = document.createElement('div');
                         textDiv.className = 'ai-response-text';
-                        textDiv.textContent = msg.text;
+                        // Parse markdown to HTML
+                        if (typeof marked !== 'undefined') {
+                            textDiv.innerHTML = marked.parse(msg.text);
+                        } else {
+                            textDiv.textContent = msg.text;
+                        }
                         containerDiv.appendChild(textDiv);
                         chatMessages.appendChild(containerDiv);
                     }
@@ -3198,7 +3352,31 @@
                 console.log('Generating text with conversation history:', conversationHistory.length, 'messages');
                 
                 // System instruction for the AI
-                const generateSystemInstruction = "You are a professional content writer who creates high-quality, engaging text based on user prompts. Write clear, well-structured content that is informative and engaging.";
+                const generateSystemInstruction = `You are a professional content writer who creates high-quality, engaging text. Be concise and direct - aim for brief, helpful responses that get to the point quickly. Format your responses using markdown for better readability:
+
+- Keep responses concise and focused - avoid unnecessary elaboration
+- Use **bold** for emphasis and important points
+- Use *italic* for subtle emphasis
+- Use bullet points (-) or numbered lists for structured information
+- Use headings (##) to organize sections when appropriate
+- Use horizontal rules (---) to separate major sections
+- Add emojis where appropriate to enhance readability (🎯 📝 ✨ 💡 🔥 ✅)
+- Break up long paragraphs into shorter, digestible chunks
+- Use clear transitions between ideas
+- Avoid excessive use of asterisks - use formatting strategically
+- Structure content with clear sections and visual hierarchy
+- Be conversational but brief - match the length and tone of ChatGPT responses
+
+**End your responses with helpful follow-up questions** to guide the user's next steps. For example, ask if they'd like:
+- More detail on a specific aspect
+- Examples or practical applications
+- Step-by-step instructions
+- A different angle or perspective
+- Related topics to explore
+
+Questions should be relevant to the topic and help the user dive deeper or clarify what they need. Keep questions concise and actionable.
+
+Write in a natural, conversational style that flows smoothly. Prioritize brevity and clarity over comprehensive detail.`;
                 
                 // Build payload with full conversation history
                 const generatePayload = {
